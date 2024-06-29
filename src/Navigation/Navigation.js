@@ -22,6 +22,7 @@ import SignIn from '../Authentication/Screens/SignIn'
 import SignUpS from '../Authentication/Screens/SignUpS'
 import { getAuth } from 'firebase/auth'
 import { Colors } from '../Constant/Colors'
+import Details from '../Screens/Details'
 // import SignUp from '../Authentication/Screens/SignUp'
 
 
@@ -29,8 +30,8 @@ import { Colors } from '../Constant/Colors'
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <BottomTab />
-            {/* <CredScreen /> */}
+            {/* <BottomTab /> */}
+            <CredScreen />
             {/* <Auth /> */}
         </NavigationContainer>
 
@@ -79,6 +80,8 @@ const Stack = createNativeStackNavigator();
 
 const CredScreen = () => (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Tabscreen" component={BottomTab} />
+        <Stack.Screen name='Details' component={Details} />
         <Stack.Screen options={{ animation: "slide_from_left" }} name='SignIn' component={SignIn} />
         <Stack.Screen options={{ animation: "slide_from_right" }} name='SignUp' component={SignUpS} />
     </Stack.Navigator>

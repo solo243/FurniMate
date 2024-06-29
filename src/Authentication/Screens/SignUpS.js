@@ -5,18 +5,42 @@ import { Colors } from '../../Constant/Colors'
 import { Fontisto } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import InputField from './Components/InputField';
-
+// import { auth } from '../firebase/config';
+// import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+// import firebase from "firebase/app";
+// import "firebase/auth";
+import auth from '@react-native-firebase/auth';
 
 const SignUpS = ({ navigation }) => {
-
-    const [email, SetEmail] = useState([]);
-    const [pass, SetPass] = useState([]);
+    const [email, SetEmail] = useState("");
+    const [pass, SetPass] = useState("");
     const [loading, setLoading] = useState(false);
 
-
+    const Login = async () => {
+        try {
+            setLoading(true);
+            const yy = await signInWithEmailAndPassword(auth, email, pass);
+            const user = yy;
+            console.log(yy)
+            console.log(user);
+            console.log("you are login brooooo !!!!!!!!!!");
+            console.log(alert("Your are loged in welcome ✅", user));
+            // setiswrong(false);
+        } catch (e) {
+            if (e.code === "auth/invalid-login-credentials") {
+                setLoading(false);
+                console.log(
+                    alert("Pleas Check your Email and Password Its wrong!") && e
+                );
+                // setiswrong(true);
+                setLoading(false);
+            }
+        }
+    };
     const handlePress = () => {
-        console.log(email, pass)
+        Login()
     }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={{ flex: 1, }}>

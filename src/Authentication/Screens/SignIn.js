@@ -6,24 +6,75 @@ import { Fontisto } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import InputField from './Components/InputField';
 import { Colors } from '../../Constant/Colors';
+import {
+    getAuth,
+    onAuthStateChanged,
+} from "firebase/auth";
 
 
 const SignIn = ({ navigation }) => {
 
-
-
-
     const [username, SetUsername] = useState("");
     const [email, SetEmail] = useState([]);
     const [pass, SetPass] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setloading] = useState(true);
 
 
+    const CreatingUser = async () => {
+        try {
+            setdisable(true);
+            setloading(true);
+            const UserCreden = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                pass,
+                name
+            );
 
-
-    const handlePress = () => {
+            const Firebase = getFirestore();
+            const firebasedata = doc(Firebase, "Users", UserCreden.user.uid);
+            await setDoc(firebasedata, {
+                name: name,
+                email: email,
+                password: pass,
+                uid: UserCreden.user.uid,
+            });
+            console.log(alert("SignUp Complate welcome"));
+            setwrong(false);
+            SendDataToServer(UserCreden.user.uid);
+            // setloading(false);
+        } catch (e) {
+            if (e.code === "auth/email-already-in-use") {
+                console.log(alert("email is ALready in use sir"));
+                setloading(false);
+                setwrong(true);
+                setdisable(false);
+            } else if (e.code === "auth/invalid-email") {
+                console.log(alert("Please Enter a valid email  "));
+                setloading(false);
+                setdisable(false);
+                setwrong(true);
+            } else if (e.code === "auth/weak-password") {
+                console.log(alert("Password is too short "));
+                setloading(false);
+                setwrong(true);
+                setdisable(False);
+            } else if (e.code === "auth/missing-password") {
+                console.log(alert(" Password is missing "));
+                setloading(false);
+                setdisable(false);
+            } else {
+                console.log(alert(e));
+                console.log(e);
+                setdisable(false);
+                setloading(false);
+            }
+            console.log(e);
+        }
 
     }
+
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={{ flex: 1 }}>

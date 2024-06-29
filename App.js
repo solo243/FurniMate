@@ -8,7 +8,8 @@ export default function App() {
     // <SignUp />
     <Navigation />
     // <Details />
-    // <SignUpS />
+
+    // <SignUpS /> 
     // <SignUp />
   );
 }
